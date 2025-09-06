@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if form.instance.pk %}Editar Rutina{% else %}Nueva Rutina{% endif %}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar</button>
+  <a href="{% url 'socios:lista' %}">Cancelar</a>
+</form>
+{% endblock %}

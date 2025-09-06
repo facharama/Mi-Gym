@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Detalle de Socio</h2>
+<p><b>Nombre:</b> {{ socio.user.get_full_name }} ({{ socio.user.username }})</p>
+<p><b>DNI:</b> {{ socio.dni }}</p>
+<p><b>Sucursal:</b> {{ socio.sucursal }}</p>
+<p><b>Estado:</b> {{ socio.estado }}</p>
+<p><b>Fecha Alta:</b> {{ socio.fecha_alta }}</p>
+
+<h3>Suscripciones</h3>
+<ul>
+  {% for s in suscripciones %}
+    <li>{{ s.plan.nombre }} - {{ s.estado }} ({{ s.fecha_inicio }} → {{ s.fecha_fin }})</li>
+  {% empty %}
+    <li>No tiene suscripciones</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'suscripcion_crear' socio.id %}">➕ Nueva Suscripción</a>
+{% endblock %}

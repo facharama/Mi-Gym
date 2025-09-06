@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Rutina del día {{ hoy }}</h2>
+
+{% if asig %}
+  <p><b>Socio:</b> {{ asig.socio.user.username }}</p>
+  <p><b>Rutina:</b> {{ asig.rutina.nombre }}</p>
+  <p><b>Estado:</b> {{ asig.estado }}</p>
+
+  {% if dia %}
+    <h3>Ejercicios del día</h3>
+    <ol>
+      {% for detalle in dia.detalles.all %}
+        <li>
+          {{ detalle.ejercicio.nombre }}
+          {% if detalle.series %} - {{ detalle.series }} x {{ detalle.repeticiones }} reps{% endif %}
+          {% if detalle.tiempo_seg %} - {{ detalle.tiempo_seg }} seg{% endif %}
+          {% if detalle.descanso_seg %} (descanso: {{ detalle.descanso_seg }} seg){% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <p>No hay ejercicios asignados para hoy.</p>
+  {% endif %}
+{% else %}
+  <p>No hay ninguna rutina asignada a este socio.</p>
+{% endif %}
+
+<a href="{% url 'socios:detalle' asig.socio.id %}">← Volver al socio</a>
+{% endblock %}

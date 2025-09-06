@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Lista de Socios</h2>
+
+<a href="{% url 'socios:crear' %}">+ Nuevo Socio</a>
+
+<ul>
+  {% for socio in socios %}
+    <li>
+      <a href="{% url 'socios:detalle' socio.id %}">
+        {{ socio.user.username }} - {{ socio.dni }}
+      </a>
+      |
+      <a href="{% url 'socios:editar' socio.id %}">Editar</a>
+      |
+      <a href="{% url 'socios:suscripcion_crear' socio.id %}">+ Suscripción</a>
+    </li>
+  {% empty %}
+    <li>No hay socios cargados.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Ocupación Actual por Sucursal</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sucursal</th>
+      <th>Personas dentro</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+      <tr>
+        <td>{{ item.sucursal.nombre }}</td>
+        <td>{{ item.ocupacion }}</td>
+        <td>{{ item.leyenda }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="3">No hay registros de accesos aún.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>
+  <a href="{% url 'ocupacion:ocupacion_registrar' %}">+ Registrar Acceso</a>
+</p>
+{% endblock %}

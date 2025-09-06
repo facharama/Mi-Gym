@@ -1,0 +1,54 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Socio, Suscripcion, Plan
+from .forms import SocioForm, SuscripcionForm
+
+# Create your views here.
+
+@login_required
+def lista_socios(request):
+    socios = Socio.objects.select_related("user", "sucursal").all()
+    return render(request, "socios/lista.html", {"socios": socios})
+
+@login_required
+def detalle_socio(request, pk):
+    socio = get_object_or_404(Socio.objects.select_related("user", "sucursal"), pk=pk)
+    suscripciones = Suscripcion.objects.filter(socio=socio).select_related("plan").order_by("-fecha_fin")
+    return render(request, "socios/detalle.html", {"socio": socio, "suscripciones": suscripciones})
+
+
+@login_required
+def crear_socio(request):
+    if request.method == "POST":
+        form = SocioForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("socios_lista")
+    else:
+        form = SocioForm()
+    return render(request, "socios/form_socio.html", {"form": form})
+
+@login_required
+def editar_socio(request, pk):
+    socio = get_object_or_404(Socio, pk=pk)
+    if request.method == "POST":
+        form = SocioForm(request.POST, instance=socio)
+        if form.is_valid():
+            form.save()
+            return redirect("socios_detalle", pk=socio.pk)
+    else:
+        form = SocioForm(instance=socio)
+    return render(request, "socios/form_socio.html", {"form": form})
+
+@login_required
+def crear_suscripcion(request, socio_id=None):
+    initial = {"socio": socio_id} if socio_id else None
+    if request.method == "POST":
+        form = SuscripcionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("socios_detalle", pk=form.cleaned_data["socio"].pk)
+    else:
+        form = SuscripcionForm(initial=initial)
+    planes = Plan.objects.filter(activo=True).order_by("nombre")
+    return render(request, "socios/form_suscripcion.html", {"form": form, "planes": planes})
