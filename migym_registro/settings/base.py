@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'aplications.pagos',
     'aplications.rutina',
     'aplications.ocupacion',
+    'core',
 ]
 
 MEDIA_URL = '/media/'
@@ -77,4 +78,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'migym_registro.wsgi.application'
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "base.html"
+
 
