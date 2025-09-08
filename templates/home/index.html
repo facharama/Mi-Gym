@@ -1,182 +1,63 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Home | MiProyecto</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <style>
-/* Reset general */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barra de navegación</title>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
 
-/* Estructura principal */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+    /* Barra */
+    nav {
+      background-color: #ef7d0ae5; /* color celeste similar */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 40px;
+    }
 
-main,
-.main-content {
-  flex: 1 1 auto;
-  padding: 40px 20px 120px; /* espacio inferior para evitar que el footer tape los botones */
-  background-color: #f8f9fa;
-  overflow-y: auto;
-}
+    /* Logo */
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
 
-/* Sección con fondo de imagen (hero) */
-.hero {
-  background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)),
-              url('https://images.unsplash.com/photo-1556761175-129418cb2dfe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') 
-              center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #003366;
-  min-height: 100vh;
-}
+    .logo span {
+      color: #ffd600; /* Amarillo para resaltar */
+    }
 
-.hero h1 {
-  font-size: 2.8rem;
-  font-weight: 600;
-}
+    /* Links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
 
-/* Tarjeta de formulario */
-.card.shadow-sm {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border-radius: 12px;
-}
+    .nav-links li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
 
-.card-header.bg-white {
-  background-color: #ffffff;
-  border-bottom: 1px solid #dee2e6;
-}
+    .nav-links li a:hover {
+      color: #ffd600; /* Amarillo al pasar el mouse */
+    }
+  </style>
+</head>
+<body>
 
-.card-body {
-  max-height: calc(100vh - 220px); /* alto máximo para evitar que se corte con el footer */
-  overflow-y: auto;
-}
-
-/* Etiquetas */
-label {
-  font-weight: 600;
-  color: #0d6efd;
-}
-
-/* Campos de formulario */
-.form-control {
-  border: 2px solid #9dc0f9;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 8px 2px rgba(13, 110, 253, 0.5);
-  outline: none;
-}
-
-/* Botones */
-.btn-primary {
-  background: linear-gradient(135deg, #0d6efd, #2563eb);
-  border: none;
-  font-weight: 600;
-  padding: 10px 30px;
-  color: white;
-  transition: background 0.3s ease;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, #2563eb, #0d6efd);
-}
-
-.btn-outline-secondary {
-  color: #0d6efd;
-  border-color: #0d6efd;
-  font-weight: 600;
-  padding: 10px 30px;
-  transition: all 0.3s ease;
-}
-
-.btn-outline-secondary:hover {
-  background-color: #0d6efd;
-  color: white;
-}
-
-/* Navbar */
-.navbar-light-custom {
-  background-color: #ffffff;
-  border-bottom: 2px solid #dee2e6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.navbar-light-custom .nav-link {
-  color: #003366;
-}
-
-.navbar-light-custom .nav-link.active {
-  font-weight: bold;
-  color: #0d6efd;
-}
-
-/* Footer */
-.footer-light {
-  background-color: #e9f0fb;
-  color: #003366;
-  border-top: 1px solid #ccd5e0;
-}
-
-.footer-fixed-bottom {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 1030;
-}
-    </style>
-  </head>
-
-  <body>
-    <!-- Navbar -->
-    {% include 'utilidades/navbar.html' %}
-
-    {% block inicio %}
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container">
-        <h1>Gestión de Empleados</h1>
-        <p class="lead">Sistema de Altas para Empresas — simple, claro y eficiente</p>
-      </div>
-    </section>
-
-    <!-- Contenido principal de Django -->
-    
-    <main class="container text-center">
-      <h2>Bienvenido/a</h2>
-      <p>Utilizá el menú para dar de alta nuevos empleados, consultar registros o comunicarte.</p>
-    </main>
-    {% endblock inicio %}
-
-    {% block content %}
-    {% endblock %}
-
-    <!-- Footer -->
-<footer class="footer-light footer-fixed-bottom py-2 small text-center">
-  <div class="container">
-    <span>
-      <strong>Profesor:</strong> Joaquín López &nbsp; | &nbsp;
-      <strong>Materia:</strong> Programación 3 &nbsp; | &nbsp;
-      <strong>Año:</strong> 2° &nbsp; | &nbsp;
-      &copy; {{ year }} Mi Proyecto Django
-    </span>
-  </div>
-</footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+  {% include 'utilidades/navbar.html' %}
+<img src="{% static 'img/imagenHOME.jpeg' %}" alt="Home">
+</body>
 </html>
+

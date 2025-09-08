@@ -33,6 +33,10 @@ INSTALLED_APPS = [
     'core',
 ]
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']  
+STATIC_ROOT = BASE_DIR / 'staticfiles'  
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 CKEDITOR_5_UPLOADS_PATH = "uploads/"

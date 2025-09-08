@@ -1,0 +1,13 @@
+
+
+{% block content %}
+{% include 'utilidades/navbar.html' %}
+<div class="login-container">
+    <h2>Iniciar sesión</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+{% endblock %}
