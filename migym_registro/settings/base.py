@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'aplications.rutina',
     'aplications.ocupacion',
     'core',
+    'aplications.usuarios',
+
 ]
 
 STATIC_URL = '/static/'
@@ -84,7 +86,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'migym_registro.wsgi.application'
 
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "role_redirect"
 LOGOUT_REDIRECT_URL = "base.html"
 
 

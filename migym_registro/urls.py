@@ -7,30 +7,21 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    # Elegí UNA de estas dos líneas (no ambas):
     path('', IndexView.as_view(), name='home'),
-    # path('', home, name='home'),
-
     path('login/', auth_views.LoginView.as_view(
         template_name='home/login.html'
     ), name='login'),
-
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
-
-    # Dashboard separado para no tapar el include
     path('socios/dashboard/', socios_dashboard, name='socios'),
-
-    # Rutas de la app socios
     path('socios/', include('aplications.socios.urls')),
-
     path('panel-admin/', admin_dashboard, name='panel_admin'),
     path('pagos/', include('aplications.pagos.urls')),
     path('rutina/', include('aplications.rutina.urls')),
     path('ocupacion/', include('aplications.ocupacion.urls')),
     path('about/', AboutView.as_view(), name='about'),
-
+    path("usuarios/", include("aplications.usuarios.urls")),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
+
 ]
 
 

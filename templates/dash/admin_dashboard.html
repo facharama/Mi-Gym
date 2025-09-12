@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard Administrador</title>
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+  <header>
+    <h1>🏋️ Dashboard de Administrador</h1>
+    <nav>
+      <a href="/usuarios/nuevo/">➕ Crear Usuario</a> |
+      <a href="/socios/">Socios</a> |
+      <a href="/pagos/">Pagos</a> |
+      <a href="/rutina/asignar/">Rutinas</a> |
+      <a href="/ocupacion/actual/">Ocupación</a> |
+      <a href="/logout/">Salir</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Estadísticas rápidas</h2>
+    <ul>
+      <li>Total de socios: {{ total_socios }}</li>
+      <li>Cuotas pendientes: {{ cuotas_pendientes }}</li>
+      <li>Ocupación actual: {{ ocupacion_actual }}</li>
+    </ul>
+  </main>
+</body>
+</html>
