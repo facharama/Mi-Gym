@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'core',
     'aplications.usuarios',
 
+
 ]
 
 STATIC_URL = '/static/'
@@ -63,6 +64,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.csrf.CsrfViewMiddleware",
+   
+
 ]
 
 ROOT_URLCONF = 'migym_registro.urls'
@@ -88,5 +92,14 @@ WSGI_APPLICATION = 'migym_registro.wsgi.application'
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "role_redirect"
 LOGOUT_REDIRECT_URL = "base.html"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "mygymregistro@gmail.com"
+EMAIL_HOST_PASSWORD = "yjin vqne kbnc ppzj"   
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "MiGym <mygymregistro@gmail.com>"
+SITE_DOMAIN = "http://127.0.0.1:8000"  
 
 

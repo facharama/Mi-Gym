@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -25,25 +26,19 @@ class Sucursal(models.Model):
         return self.nombre 
 
 
+
 class Socio(models.Model):
-    ESTADOS = [("Activo", "Activo"), ("Suspendido", "Suspendido"), ("Baja", "Baja")]
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="socio")
-    sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT, related_name="socios")
-    dni = models.CharField(max_length=15, unique=True)
-    fecha_nacimiento = models.DateField(null=True, blank=True)
-    telefono = models.CharField(max_length=30, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name="perfil_socio")
+    nombre = models.CharField(max_length=100,  default="")
+    apellido = models.CharField(max_length=100,  default="")
+    email = models.EmailField(unique=True,  default="")
+    dni = models.CharField(max_length=20, unique=True)
+    sucursal = models.CharField(max_length=100)
+    estado = models.CharField(max_length=20, default="Activo")
     fecha_alta = models.DateField(auto_now_add=True)
-    estado = models.CharField(max_length=20, choices=ESTADOS, default="Activo")
-    observaciones = models.CharField(max_length=300, blank=True)
-
-    class Meta:
-        indexes = [models.Index(fields=["sucursal", "estado"])]
-        verbose_name = "Socio"
-        verbose_name_plural = "Socios"
 
     def __str__(self):
-        return f"{self.user.get_full_name() or self.user.username} - {self.dni}"
+        return f"{self.nombre} {self.apellido} ({self.dni})"
 
 
 class Instructor(models.Model):

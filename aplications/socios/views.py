@@ -23,10 +23,10 @@ def crear_socio(request):
         form = SocioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("socios_lista")
+            return redirect("socios_crear")
     else:
         form = SocioForm()
-    return render(request, "socios/form_socio.html", {"form": form})
+    return render(request, "socios/socio_form.html", {"form": form})
 
 @login_required
 def editar_socio(request, pk):

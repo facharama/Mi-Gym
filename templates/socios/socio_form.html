@@ -1,0 +1,11 @@
+<!-- templates/socios/socio_form.html -->
+{% extends "base.html" %}
+{% block content %}
+  <h2>Nuevo Socio</h2>
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear</button>
+  </form>
+{% endblock %}
+

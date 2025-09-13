@@ -4,7 +4,8 @@ from .models import Socio, Suscripcion
 class SocioForm(forms.ModelForm):
     class Meta:
         model = Socio
-        fields = ["user", "sucursal", "dni", "fecha_nacimiento", "telefono", "estado", "observaciones"]
+        fields = ["nombre", "apellido", "email", "dni", "sucursal", "estado"]
+
 
 class SuscripcionForm(forms.ModelForm):
     class Meta:
