@@ -1,6 +1,5 @@
-/* Barra */
     nav {
-      background-color: #ef7d0ae5; /* color celeste similar */
+      background-color: #ef7d0ae5; 
       display: flex;
       justify-content: space-between;
       align-items: center;

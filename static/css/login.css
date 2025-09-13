@@ -1,17 +1,15 @@
-/* Fondo general */
 body {
   margin: 0;
-  background-color: #000; /* Fondo negro */
+  background-color: #000; 
   
   background-repeat: no-repeat;
-  background-position: center center; /* Centrada */
+  background-position: center center; 
   background-attachment: fixed;
-  background-size: contain; /* 🔹 Mantiene proporción sin estirar */
+  background-size: contain; 
   font-family: 'Arial', sans-serif;
   color: #fff;
 }
 
-/* Opcional: en pantallas chicas reduce el tamaño */
 @media (max-width: 768px) {
   body {
     background-size: 260px auto;
@@ -19,26 +17,25 @@ body {
   }
 }
 
-/* Contenedor del login */
+
 .login-container {
-  background: #111; /* Negro suave */
+  background: #111; 
   padding: 40px;
   border-radius: 12px;
-  width: 350px; /* Ancho fijo reducido */
+  width: 350px; 
   color: white;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); /* Efecto glow */
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); 
   text-align: center;
-  margin: 80px auto; /* Centrar el login en la pantalla */
+  margin: 80px auto; 
 }
 
 .login-container h2 {
   margin-bottom: 20px;
   font-size: 26px;
   font-weight: bold;
-  color: #ff9800; /* Naranja tipo gym */
+  color: #ff9800; 
 }
 
-/* Inputs */
 .login-container input {
   width: 100%;
   padding: 12px;
