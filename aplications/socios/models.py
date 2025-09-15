@@ -33,7 +33,7 @@ class Socio(models.Model):
     apellido = models.CharField(max_length=100,  default="")
     email = models.EmailField(unique=True,  default="")
     dni = models.CharField(max_length=20, unique=True)
-    sucursal = models.CharField(max_length=100)
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT,max_length=100)
     estado = models.CharField(max_length=20, default="Activo")
     fecha_alta = models.DateField(auto_now_add=True)
 

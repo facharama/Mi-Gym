@@ -1,63 +1,126 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Barra de navegación</title>
+  <title>MiGym</title>
+
+  <!-- CSS propio -->
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
 
-
-    nav {
-      background-color: #ef7d0ae5; 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 40px;
-    }
-
-    
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .logo span {
-      color: #ffd600; 
-    }
-
-    
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-links li a {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-links li a:hover {
-      color: #ffd600; 
-    }
   </style>
 </head>
 <body>
 
-  {% include 'utilidades/navbar.html' %}
-<img src="{% static 'img/imagenHOME.jpeg' %}" alt="Home">
+  <!-- Navbar -->
+
+  <!-- Navbar -->
+ <nav>
+    <a href="{% url 'home' %}" class="logo">Mi<span>Gym</span></a>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+       <li>{% if user.is_authenticated %}
+        <span>Hola, {{ user.username }} |</span>
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" style="background:none;border:none;color:inherit;cursor:pointer;">
+            Cerrar sesión
+          </button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}">Iniciar sesión</a>
+      {% endif %}
+      
+      </li>
+    
+      
+      <li><a href="#acerca">Acerca de</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#clases">Clases</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      </ul>
+  </nav>
+  <!-- Slider -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <img src="{% static 'img/MyGym1.jpg' %}" alt="Plan Red">
+      </div>
+      <div class="swiper-slide">
+        <img src="{% static 'img/imagenHOME.jpeg' %}" alt="Plan Blue">
+      </div>
+      <div class="swiper-slide">
+        <img src="{% static 'img/MyGym.jpg' %}" alt="Plan Gold">
+      </div>
+    </div>
+    <!-- Paginación y flechas -->
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+
+  <!-- Secciones -->
+  <section class="section orange" id="servicios">
+    <h2>PASE DE PRUEBA</h2>
+    <p>Vení a entrenar por un dia gratis registrandote</p>
+    <a href="#" class="btn">¡SOLICITAR GRATIS!</a>
+  </section>
+
+  <section class="section blue" id="clases">
+    <h2>50% EN EL MES DE SEPTIEMBRE</h2>
+    <p>Solo para socios de RIVER</p>
+    <a href="#" class="btn">MÁS INFO</a>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contacto">
+    <div class="social">
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#"><i class="fa-solid fa-phone"></i></a>
+      <a href="#"><i class="fa-solid fa-envelope"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+    </div>
+    <p><strong>AYUDA</strong></p>
+    <p>Pautas de Convivencia | Trabajá con Nosotros | Botón de Arrepentimiento | Términos y Condiciones</p>
+    <p>© MyGym 2025 - Todos los derechos reservados</p>
+    <p>Dirección: Av.Falsa 1234, Capital Federal, Argentina</p>
+  </footer>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <!-- FontAwesome para íconos -->
+  <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      loop: true,
+      autoplay: { delay: 4000 },
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    });
+
+    // 🔹 Toggle menú hamburguesa
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+  </script>
 </body>
 </html>
-

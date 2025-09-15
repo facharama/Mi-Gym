@@ -7,8 +7,11 @@ from .forms import SocioForm, SuscripcionForm
 
 @login_required
 def lista_socios(request):
-    socios = Socio.objects.select_related("user", "sucursal").all()
-    return render(request, "socios/lista.html", {"socios": socios})
+    qs = Socio.objects.select_related("user", "sucursal")
+    ape = request.GET.get("apellido", "").strip()
+    if ape:
+        qs = qs.filter(user__last_name__icontains=ape)
+    return render(request, "socios/lista.html", {"socios": qs})
 
 @login_required
 def detalle_socio(request, pk):
@@ -52,3 +55,6 @@ def crear_suscripcion(request, socio_id=None):
         form = SuscripcionForm(initial=initial)
     planes = Plan.objects.filter(activo=True).order_by("nombre")
     return render(request, "socios/form_suscripcion.html", {"form": form, "planes": planes})
+
+
+

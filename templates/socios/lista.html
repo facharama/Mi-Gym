@@ -1,22 +1,61 @@
-{% extends "base.html" %}
+
+{% block inicio %}{% endblock inicio %}
+
 {% block content %}
-<h2>Lista de Socios</h2>
+<section class="hero">
+  <div class="container my-5 hero">
+    <div class="card shadow">
+      <div class="card-header bg-indigo text-indigo-light">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+          <h3 class="mb-0">Socios</h3>
 
-<a href="{% url 'socios:crear' %}">+ Nuevo Socio</a>
+          
+          <form method="get" class="d-flex align-items-center gap-2">
+            <input
+              type="text"
+              name="apellido"
+              class="form-control form-control-sm"
+              placeholder="Filtrar por Apellido"
+              value="{{ request.GET.apellido|default_if_none:'' }}"
+            >
+            <button type="submit" class="btn btn-sm btn-outline-primary">Buscar</button>
+          </form>
 
-<ul>
-  {% for socio in socios %}
-    <li>
-      <a href="{% url 'socios:detalle' socio.id %}">
-        {{ socio.user.username }} - {{ socio.dni }}
-      </a>
-      |
-      <a href="{% url 'socios:editar' socio.id %}">Editar</a>
-      |
-      <a href="{% url 'socios:suscripcion_crear' socio.id %}">+ Suscripción</a>
-    </li>
-  {% empty %}
-    <li>No hay socios cargados.</li>
-  {% endfor %}
-</ul>
+          <a href="{% url 'socios:socios_crear' %}" class="btn btn-sm btn-indigo">
+            ➕ Nuevo socio
+          </a>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          {% for socio in socios %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column">
+              <span class="fw-semibold">
+                {{ socio.user.get_full_name|default:socio.user.username }}
+              </span>
+              <small class="text-muted">
+                DNI: {{ socio.dni|default:"—" }}
+                {% if socio.sucursal %} · Sucursal: {{ socio.sucursal }}{% endif %}
+              </small>
+            </div>
+
+            <div class="d-flex gap-2">
+              <a href="{% url 'socios:detalle' socio.pk %}" class="btn btn-sm btn-outline-primary" title="Ver">
+                <i class="bi bi-search"></i>
+              </a>
+              <a href="{% url 'socios:editar' socio.pk %}" class="btn btn-sm btn-outline-success" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </a>
+            </div>
+          </li>
+          {% empty %}
+          <li class="list-group-item">No hay socios registrados con ese filtro aplicado.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

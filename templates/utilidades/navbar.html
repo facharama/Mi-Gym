@@ -5,58 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/login.js' %}"></script>
+    <title>MiGym-Registro</title>
+
 </head><style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
 
-    /* Barra */
-    nav {
-      background-color: #ef7d0ae5; /* color celeste similar */
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 40px;
-    }
-
-    /* Logo */
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-    }
-
-    .logo span {
-      color: #ffd600; /* Amarillo para resaltar */
-    }
-
-    /* Links */
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-links li a {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-links li a:hover {
-      color: #ffd600; 
-    }
   </style>
 <body>
   <nav>
-    <div class="logo">My<span>Gym</span></div>
-    <ul class="nav-links">
-      <li>{% if user.is_authenticated %}
+    <a href="{% url 'home' %}" class="logo">Mi<span>Gym</span></a>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+       <li>{% if user.is_authenticated %}
         <span>Hola, {{ user.username }} |</span>
         <form method="post" action="{% url 'logout' %}" style="display:inline;">
           {% csrf_token %}
@@ -77,10 +44,27 @@
       <li><a href="#contacto">Contacto</a></li>
       </ul>
   </nav>  
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <!-- FontAwesome para íconos -->
+  <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
   
-    
-   
-      
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      loop: true,
+      autoplay: { delay: 4000 },
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    });
+
+    // 🔹 Toggle menú hamburguesa
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+  </script> 
     
 </body>
 </html>
