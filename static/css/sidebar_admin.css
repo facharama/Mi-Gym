@@ -1,0 +1,119 @@
+/* ====== Tema (cambiá --accent para otro color principal) ====== */
+:root{ --accent: var(--cyan); } /* p.ej. var(--orange) o #a855f7 */
+
+/* ====== Sidebar IZQUIERDO ====== */
+.left-sidebar{
+  position: fixed;
+  top: 64px;                 /* debe coincidir con la altura del navbar */
+  left: 0;
+  height: calc(100vh - 64px);
+  width: 300px;              /* ancho expandido */
+  background: #000000;
+  border-right: 2px solid var(--orange);
+  box-shadow: 20px 0 40px rgba(0,0,0,.45);
+  z-index: 1050;
+  transition: width .22s ease;
+}
+
+/* Encabezado / controles */
+.ls-brand{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.9rem 1rem; border-bottom:1px solid rgba(255,255,255,.06);
+}
+.brand-circle {
+  width: 32px;  /* más chico */
+  height: 32px;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: var(--accent);
+  color: #0b1220;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.brand-circle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--accent);
+}
+.ls-ctrl{
+  background: transparent; border:1px solid rgba(255,255,255,.12);
+  color:#e5e7eb; border-radius:8px; padding:.35rem .5rem; cursor:pointer;
+}
+.ls-ctrl:hover{ color: var(--accent); border-color: var(--accent); }
+
+/* Navegación */
+.ls-nav{ padding:.6rem; display:flex; flex-direction:column; gap:.25rem; }
+.ls-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+
+  width: 100%;
+  box-sizing: border-box;   /* 👈 para que no se pase del ancho */
+  color: #e5e7eb;
+  text-decoration: none;
+
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;       /* 🔹 más chico para que quede dentro */
+  padding: .6rem .7rem;
+  margin: 0 .4rem;          /* 👈 deja espacio a los costados */
+  
+  font-weight: 500;
+  transition: background .2s, color .2s, border-color .2s, transform .08s;
+}
+
+/* Íconos */
+.ls-item .ico {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+/* Hover */
+.ls-item:hover {
+  background: rgba(6,182,212,.12);
+  color: var(--accent);
+  border-color: rgba(6,182,212,.35);
+}
+
+/* Activo */
+.ls-item.active {
+  background: var(--accent);
+  color: #0f172a;
+  border-color: var(--accent);
+  font-weight: 600;
+
+  margin: 0 .4rem;          /* 👈 asegura que quede dentro */
+  border-radius: 8px;       /* 👈 recorte más suave */
+}
+.ls-item.danger{ color:#ffd7c2; }
+.ls-item.danger:hover{ background: rgba(255,106,0,.12); color: var(--orange); border-color: var(--orange); }
+
+/* Submenú */
+.ls-group .caret{ margin-left:auto; opacity:.8; }
+.ls-sub{ display:none; padding-left: 2.1rem; }
+.ls-sub .ls-subitem{ display:block; color:#cbd5e1; text-decoration:none; padding:.45rem 0; }
+.ls-group.open .ls-sub{ display:block; }
+.ls-sub .ls-subitem:hover{ color: var(--accent); }
+
+/* ====== Estado colapsado: solo íconos ====== */
+.sidebar-collapsed .left-sidebar{ width: 78px; }
+.sidebar-collapsed .ls-item span{ display:none; }
+.sidebar-collapsed .ls-group .caret{ display:none; }
+.sidebar-collapsed .ls-sub{ display:none !important; }
+.sidebar-collapsed .ls-item{ justify-content:center; }
+
+/* ====== Empuje de contenido ====== */
+.dash-container{ transition: padding-left .22s ease; padding-left: 300px; }
+.sidebar-collapsed .dash-container{ padding-left: 78px; }
+
+/* Responsive */
+@media (max-width: 640px){
+  .left-sidebar{ width: 86vw; }
+  .sidebar-collapsed .left-sidebar{ width: 68px; }
+  .dash-container{ padding-left: 86vw; }
+  .sidebar-collapsed .dash-container{ padding-left: 68px; }
+}

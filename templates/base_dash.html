@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block navbar %}
+  {% include "partials/nav_home.html" %}
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/nav_home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sidebar_admin.css' %}">
+{% endblock %}
+
+{% block content %}
+  {# Sidebar permanente a la izquierda #}
+  {% include "partials/sidebar_admin.html" %}
+
+  <div class="dash-container">
+    {% block page_content %}{% endblock %}
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const body = document.body;
+  const toggle = document.getElementById("sidebar-toggle");
+  const groupToggles = document.querySelectorAll(".ls-group-toggle");
+
+  // Arranca colapsado
+  body.classList.add("sidebar-collapsed");
+
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      body.classList.toggle("sidebar-collapsed");
+    });
+  }
+
+  groupToggles.forEach(btn => {
+    btn.addEventListener("click", () => btn.parentElement.classList.toggle("open"));
+  });
+});
+</script>
+
+{% endblock %}

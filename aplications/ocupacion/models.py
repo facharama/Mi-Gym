@@ -1,27 +1,37 @@
+# aplications/ocupacion/models.py
 from django.db import models
-from django.db import models
+from django.conf import settings
+from django.utils import timezone
 from aplications.socios.models import Socio, Sucursal
-# Create your models here.
+
+User = settings.AUTH_USER_MODEL
 
 class Acceso(models.Model):
-    """Registro de ingreso/egreso de un socio a una sucursal."""
-    TIPOS = [("Ingreso", "Ingreso"), ("Egreso", "Egreso")]
-    ORIGENES = [("Molturno", "Molturno"), ("Recepcion", "Recepción"), ("Manual", "Manual")]
-
-    socio = models.ForeignKey(Socio, on_delete=models.CASCADE, related_name="accesos")
-    sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT, related_name="accesos")
-    fecha_hora = models.DateTimeField(auto_now_add=True)
-    tipo = models.CharField(max_length=10, choices=TIPOS)
-    origen = models.CharField(max_length=20, choices=ORIGENES, default="Recepcion")
+    TIPO_CHOICES = [
+        ("Ingreso", "Ingreso"),
+        ("Egreso", "Egreso"),
+    ]
+    socio = models.ForeignKey(Socio, on_delete=models.PROTECT)
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT)
+    tipo = models.CharField(max_length=10, choices=TIPO_CHOICES)
+    fecha_hora = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        indexes = [
-            models.Index(fields=["sucursal", "fecha_hora"]),
-            models.Index(fields=["socio", "fecha_hora"]),
-        ]
-        ordering = ["-fecha_hora"]
         verbose_name = "Acceso"
         verbose_name_plural = "Accesos"
+        indexes = [
+            models.Index(fields=["socio", "sucursal", "fecha_hora"]),
+        ]
 
     def __str__(self):
-        return f"{self.socio} - {self.tipo} @ {self.fecha_hora:%Y-%m-%d %H:%M}"
+        return f"{self.socio} - {self.tipo} - {self.fecha_hora:%Y-%m-%d %H:%M}"
+
+class ActiveSession(models.Model):
+    member = models.OneToOneField("socios.Socio", on_delete=models.PROTECT)
+    check_in_at = models.DateTimeField()
+    check_out_at = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=20, default="ACTIVE")  # ACTIVE, CLOSED, AUTO_CLOSED
+
+    def duration(self):
+        end = self.check_out_at or timezone.now()
+        return end - self.check_in_at

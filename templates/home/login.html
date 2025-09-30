@@ -1,9 +1,9 @@
-
+{% extends "base.html" %}
 {% load static %}
-
+{% block navbar %}
+  {% include "partials/nav_home.html" %}
+{% endblock %}
 {% block content %}
-{% include 'utilidades/navbar.html' %}
-
 <div class="neon-wrap">
   <div class="neon-stage">
     <div class="neon-box">
@@ -35,4 +35,5 @@
 
 <link rel="stylesheet" href="{% static 'css/neon-gym-login.css' %}">
 <script src="{% static 'js/neon-gym-login.js' %}"></script>
+
 {% endblock %}

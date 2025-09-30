@@ -32,9 +32,11 @@ INSTALLED_APPS = [
     'aplications.ocupacion',
     'core',
     'aplications.usuarios',
-
-
+    'rest_framework',
+    'channels',
 ]
+
+ASGI_APPLICATION = "migym_registro.asgi.application"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  

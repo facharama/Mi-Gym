@@ -45,11 +45,13 @@ def role_redirect(request):
 @role_required("Administrador")
 def admin_dashboard(request):
     data = {
-        "total_socios": 0,        # Ej: Socio.objects.count()
-        "cuotas_pendientes": 0,   # Ej: Pago.objects.pendientes().count()
-        "ocupacion_actual": 0,    # Ej: función que calcule ocupación
+        "total_socios": 0,
+        "cuotas_pendientes": 0,
+        "ocupacion_actual": 0,
     }
-    return render(request, "dash/admin_dashboard.html", data)
+    # 👉 usa una plantilla NAMESPACEADA para evitar que Django agarre otra
+    return render(request, "usuarios/admin_dashboard.html", data)
+
 
 
 @login_required

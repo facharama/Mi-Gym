@@ -1,0 +1,62 @@
+/* --- Navbar Admin --- */
+nav.nav-admin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+
+  background: #0f172a; /* más serio que el home */
+  border-bottom: 2px solid var(--cyan);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+nav.nav-admin .brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+nav.nav-admin .brand span {
+  color: var(--orange);
+}
+
+/* Links */
+nav.nav-admin ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.2rem;
+}
+
+nav.nav-admin ul li a,
+nav.nav-admin ul li button {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* Hover */
+nav.nav-admin ul li a:hover,
+nav.nav-admin ul li button:hover {
+  background: rgba(6,182,212,0.15); /* cyan con transparencia */
+  color: var(--cyan);
+  cursor: pointer;
+}
+
+/* Activo */
+nav.nav-admin ul li a.active {
+  background: var(--cyan);
+  color: #0f172a;
+  font-weight: 600;
+}

@@ -1,5 +1,52 @@
-{% extends "base.html" %}
+
 {% block content %}
+<div class="main-container">
+        <nav class="nav-desktop">
+            <a href="/socios/">Socios</a>
+            <a href="/pagos/">Pagos</a>
+            <a href="/rutina/asignar/">Rutinas</a>
+            <a href="/ocupacion/actual/">Ocupación</a>
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Salir</button>
+                </form>
+            {% endif %}
+        </nav>
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Panel de Administrador</h2>
+                <div class="hamburger-menu close-sidebar" id="sidebar-close-btn">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/socios/">Socios</a>
+                <a href="/pagos/">Pagos</a>
+                <a href="/rutina/asignar/">Rutinas</a>
+                <a href="/ocupacion/actual/">Ocupación</a>
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">
+                            <span class="icon">🚪</span> Salir
+                        </button>
+                    </form>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <div class="content-container">
+            <header>
+                <div class="hamburger-menu" id="main-hamburger">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </header>
 <h2>Lista de Pagos</h2>
 
 <p><a href="{% url 'pagos:pagos_crear' %}">+ Nuevo Pago</a></p>

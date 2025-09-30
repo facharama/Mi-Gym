@@ -5,5 +5,10 @@ app_name = "ocupacion"
 
 urlpatterns = [
     path("registrar/", views.registrar_acceso, name="ocupacion_registrar"),
-    path("actual/", views.ocupacion_actual, name="ocupacion_actual")
+    path("actual/", views.ocupacion_actual, name="ocupacion_actual"),
+    path("simulador/", views.simulador, name="simulador"),
+
+    # APIs para el simulador
+    path("api/access/", views.access_event, name="access_event"),
+    path("api/occupancy/current/", views.occupancy_current, name="occupancy_current"),
 ]
