@@ -104,3 +104,10 @@ nav.nav .nav-links a.active {
   padding-bottom: .25rem;
 }
 
+:root{
+  --nav-height: 64px;
+}
+
+nav.nav{
+  min-height: var(--nav-height);
+}

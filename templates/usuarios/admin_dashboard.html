@@ -3,6 +3,78 @@
 {% block title %}Dashboard · MiGym{% endblock %}
 
 {% block page_content %}
+{# === MINI PANEL: Ocupación por sucursal (arriba-derecha) === #}
+<div class="occ-mini-wrap">
+  <div class="occ-mini">
+    <div class="occ-mini__head">
+      <h3>Ocupación actual</h3>
+      <a href="{% url 'ocupacion:simulador' %}" class="occ-mini__link">→ Ir al simulador</a>
+    </div>
 
+    <div class="occ-mini__row">
+      <label for="occ-sel">Sucursal</label>
+      <select id="occ-sel">
+        {% for s in sucursales %}
+          <option value="{{ s.id }}" {% if s.id == default_sucursal_id %}selected{% endif %}>{{ s.nombre }}</option>
+        {% empty %}
+          <option value="">(sin sucursales)</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="occ-mini__kpis">
+      <div class="kpi">
+        <span class="kpi__label">Personas dentro</span>
+        <span id="occ-count" class="kpi__value">—</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi__label">Capacidad</span>
+        <span id="occ-capacity" class="kpi__value">—</span>
+      </div>
+      <div class="kpi kpi--text">
+        <span class="kpi__label">Sucursal</span>
+        <span id="occ-sucursal-name" class="kpi__value kpi__value--small">—</span>
+      </div>
+    </div>
+
+    <div class="occ-mini__meter"><div id="occ-bar" class="occ-mini__bar"></div></div>
+    <div class="occ-mini__hint">En vivo · 5s</div>
+  </div>
+</div>
+
+<style>
+/* --- Mini panel arriba-derecha, sticky bajo el navbar --- */
+.occ-mini-wrap{
+  position: relative; top: 72px; z-index: 15;
+  display: flex; justify-content: flex-end;
+  margin: 0 16px 12px;
+}
+.occ-mini{
+  width: 360px; max-width: 100%;
+  background: #0b0b0b;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  color: #fff;
+  padding: .9rem;
+}
+.occ-mini__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.occ-mini__head h3{margin:0;font-size:1.05rem}
+.occ-mini__link{font-size:.8rem;color:var(--cyan);text-decoration:none}
+.occ-mini__row{display:grid;grid-template-columns:1fr;gap:.3rem;margin:.45rem 0 .6rem}
+.occ-mini__row label{font-size:.8rem;color:var(--muted)}
+#occ-sel{background:#0c0c0c;color:#e5e7eb;border:1px solid rgba(255,255,255,.1);padding:.55rem .6rem;border-radius:10px;outline:none}
+.occ-mini__kpis{display:flex;gap:.55rem;align-items:stretch;margin-bottom:.55rem}
+.kpi{flex:1 1 0;background:#0c0c0c;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.5rem .6rem}
+.kpi__label{font-size:.72rem;color:var(--muted);display:block}
+.kpi__value{font-size:1.15rem;font-weight:800}
+.kpi__value--small{font-size:.98rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi--text{min-width:120px}
+.occ-mini__meter{height:10px;background:#121212;border:1px solid rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+.occ-mini__bar{height:100%;width:0%;background:linear-gradient(90deg,var(--cyan),var(--orange));transition:width .35s ease}
+.occ-mini__hint{margin-top:.4rem;font-size:.75rem;color:var(--muted);text-align:right}
+@media (max-width:700px){.occ-mini-wrap{position:relative;margin:.6rem 0}.occ-mini{width:100%}}
+</style>
 
 {% endblock %}
+

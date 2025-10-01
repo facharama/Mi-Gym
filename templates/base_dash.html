@@ -21,6 +21,7 @@
 
 {% block extra_js %}
 <script>
+/* === Sidebar: colapsar/expandir y submenús === */
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const toggle = document.getElementById("sidebar-toggle");
@@ -41,4 +42,56 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>
+/* === Mini panel: selector de sucursal + ocupación en vivo === */
+(function(){
+  // Endpoint con namespace (devuelve { count, capacity } y respeta ?sucursal_id=)
+  const OCC_URL = "{% url 'ocupacion:occupancy_current' %}";
+
+  // Elementos del mini panel (si no existen, no hacemos nada)
+  const sel    = document.getElementById('occ-sel');
+  const elCnt  = document.getElementById('occ-count');
+  const elCap  = document.getElementById('occ-capacity');
+  const elBar  = document.getElementById('occ-bar');
+  const elName = document.getElementById('occ-sucursal-name');
+
+  if (!sel || !elCnt || !elCap || !elBar || !elName) return;
+
+  function nombreSeleccionado(){
+    return sel && sel.options.length ? sel.options[sel.selectedIndex].text.trim() : "";
+  }
+
+  async function refresh(){
+    const suc = sel && sel.value ? sel.value : '';
+    const url = suc ? `${OCC_URL}?sucursal_id=${encodeURIComponent(suc)}` : OCC_URL;
+
+    try{
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' }});
+      const data = await r.json();
+
+      const count    = Number(data.count ?? 0);
+      const capacity = Number(data.capacity ?? 0);
+      const pct      = capacity > 0 ? Math.round((count / capacity) * 100) : 0;
+
+      elCnt.textContent  = count;
+      elCap.textContent  = capacity > 0 ? capacity : '—';
+      elBar.style.width  = pct + '%';
+      elName.textContent = nombreSeleccionado();
+
+      // Si existe un widget grande y expuso el refresco global, sincronizamos:
+      if (window.miGymRefreshOcc) window.miGymRefreshOcc();
+    }catch(e){
+      console.error(e);
+    }
+  }
+
+  // Cambiar sucursal refresca inmediatamente
+  sel.addEventListener('change', refresh);
+
+  // Primer render + polling cada 5s
+  refresh();
+  setInterval(refresh, 5000);
+})();
+</script>
 {% endblock %}
+

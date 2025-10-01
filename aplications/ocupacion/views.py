@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Subquery, OuterRef, Count
+from django.db.models import Subquery, OuterRef, Count, Sum, Value, IntegerField
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.utils import timezone
@@ -7,8 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .forms import AccesoForm
 from .models import Acceso
-from aplications.socios.models import Sucursal, Socio  # si tu Socio está en otra app, ajustá
+from aplications.socios.models import Sucursal, Socio 
 
+from django.db.models.functions import Coalesce 
 # ---------------------------
 # Alta manual con formulario
 # ---------------------------
@@ -147,14 +148,18 @@ def access_event(request):
         return JsonResponse({"detail": f"server error: {e}"}, status=500)
 
 
+
+
 def occupancy_current(request):
     """
-    Devuelve ocupación total (suma de todas las sucursales).
-    Opcional: ?sucursal_id=1 para una sede específica.
-    Respuesta: { "count": N }
+    Devuelve ocupación y capacidad.
+    - ?sucursal_id=1 -> cuenta y capacidad de esa sucursal
+    - sin sucursal_id -> cuenta total y capacidad total (suma de aforos)
+    Respuesta: { "count": N, "capacity": M, "sucursal_id": "..." }
     """
     sucursal_id = request.GET.get("sucursal_id")
 
+    # Subconsulta: último tipo (Ingreso/Egreso) por (socio, sucursal)
     ultimo_tipo_subq = (
         Acceso.objects
         .filter(socio_id=OuterRef("socio_id"), sucursal_id=OuterRef("sucursal_id"))
@@ -162,6 +167,7 @@ def occupancy_current(request):
         .values("tipo")[:1]
     )
 
+    # Base: sólo los que su último movimiento fue "Ingreso"
     base = (
         Acceso.objects
         .values("socio_id", "sucursal_id")
@@ -170,8 +176,28 @@ def occupancy_current(request):
         .filter(ultimo_tipo="Ingreso")
     )
 
+    # Filtrado opcional por sucursal
     if sucursal_id:
         base = base.filter(sucursal_id=sucursal_id)
 
-    total = base.values("socio_id").count()
-    return JsonResponse({"count": total})
+    count = base.values("socio_id").count()
+
+    # ---- capacidad ----
+    # Si viene sucursal_id: devolver aforo de esa sucursal
+    # Si no: sumar aforo de todas
+    from aplications.socios.models import Sucursal
+
+    if sucursal_id:
+        suc = Sucursal.objects.filter(pk=sucursal_id).values("aforo_maximo").first()
+        capacity = int((suc or {}).get("aforo_maximo") or 0)
+    else:
+        agg = Sucursal.objects.aggregate(
+            total=Coalesce(Sum("aforo_maximo"), Value(0, output_field=IntegerField()))
+        )
+        capacity = int(agg["total"] or 0)
+
+    return JsonResponse({
+        "count": count,
+        "capacity": capacity,
+        "sucursal_id": sucursal_id or None,
+    })

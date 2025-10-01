@@ -21,10 +21,10 @@
   padding:.9rem 1rem; border-bottom:1px solid rgba(255,255,255,.06);
 }
 .brand-circle {
-  width: 32px;  /* más chico */
-  height: 32px;
+  width: 20px;  /* más chico */
+  height: 20px;
   font-size: 0.9rem;
-  border-radius: 50%;
+  border-radius: 10%;
   display: grid;
   place-items: center;
   font-weight: 700;
@@ -116,4 +116,77 @@
   .sidebar-collapsed .left-sidebar{ width: 68px; }
   .dash-container{ padding-left: 86vw; }
   .sidebar-collapsed .dash-container{ padding-left: 68px; }
+}
+
+/* Contenedor arriba-derecha (debajo del navbar) */
+.occ-top-right{
+  position: absolute;
+  top: 76px;         /* ajustá a la altura de TU navbar */
+  right: 16px;
+  z-index: 30;
+}
+
+/* Card mini */
+.occ-mini{
+  width: 360px;
+  background:#0b0b0b;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  color:#fff;
+  padding:.9rem;
+}
+.occ-mini__head h3{margin:0;font-size:1.05rem}
+
+/* Selector */
+.occ-mini__row{display:grid;grid-template-columns:1fr;gap:.3rem;margin:.55rem 0 .7rem}
+.occ-mini__row label{font-size:.8rem;color:var(--muted)}
+#occ-sel{
+  background:#0c0c0c;color:#e5e7eb;border:1px solid rgba(255,255,255,.1);
+  padding:.55rem .6rem;border-radius:10px;outline:none
+}
+
+/* KPIs */
+.occ-mini__kpis{display:flex;gap:.55rem;align-items:stretch;margin-bottom:.6rem}
+.kpi{
+  flex:1 1 0;background:#0c0c0c;border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:.5rem .6rem
+}
+.kpi__label{font-size:.72rem;color:var(--muted)}
+.kpi__value{font-size:1.15rem;font-weight:800}
+.kpi__value--small{font-size:.98rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi--badge{min-width:120px}
+
+/* Barra de ocupación */
+.occ-mini__meter{
+  height:10px;background:#121212;border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;overflow:hidden
+}
+.occ-mini__bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--cyan),var(--orange));
+  transition:width .35s ease
+}
+
+/* Hint */
+.occ-mini__hint{margin-top:.45rem;font-size:.75rem;color:var(--muted);text-align:right}
+
+/* Responsive: en mobile ocupar ancho */
+@media (max-width: 700px){
+  .occ-top-right{ position: relative; margin: .6rem 0; }
+  .occ-mini{ width: 100%; }
+}
+
+/* --- Mini panel arriba-derecha, separado del navbar --- */
+:root{
+  --nav-gap: 24px; /* aire extra bajo el nav */
+}
+
+.occ-mini-wrap{
+  position: relative !important ;
+  top: calc(var(--nav-height) + var(--nav-gap)); /* queda por debajo del nav */
+  z-index: 100;                                   /* suficiente para quedar visible */
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 16px 12px;
 }
