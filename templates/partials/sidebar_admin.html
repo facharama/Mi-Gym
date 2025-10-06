@@ -17,6 +17,27 @@
       <span>Socios</span>
     </a>
 
+    <a href="{% url 'pagos:listar' %}" class="ls-item">
+      <svg viewBox="0 0 24 24" class="ico"><path d="M21 7H3c-1.1 0-2 .9-2 2v6a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2zm0 8H3v-4h18v4zm-4-3h-4v2h4v-2z" fill="currentColor"/></svg>
+      <span>Pagos</span>
+    </a>
+
+    <div class="ls-group">
+      <button class="ls-item ls-group-toggle" type="button">
+        <svg viewBox="0 0 24 24" class="ico"><path d="M20.57 14.86l-1.41 1.41-3.43-3.43-3.43 3.43-1.41-1.41L13.74 12 9.89 8.14l1.41-1.41L15.6 10.6l3.43-3.43 1.41 1.41L17.43 12l3.14 2.86z" fill="currentColor"/></svg>
+        <span>Rutinas</span>
+        <i class="caret">▾</i>
+      </button>
+      <div class="ls-sub">
+        <a href="{% url 'rutina:rutina_asignar' %}" class="ls-subitem">Asignar</a>
+      </div>
+    </div>
+
+    <a href="{% url 'ocupacion:ocupacion_actual' %}" class="ls-item">
+      <svg viewBox="0 0 24 24" class="ico"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 13h2v4H7v-4zm4-6h2v10h-2V7zm4 3h2v7h-2v-7z" fill="currentColor"/></svg>
+      <span>Ocupación</span>
+    </a>
+
     <form method="post" action="{% url 'logout' %}">
       {% csrf_token %}
       <button type="submit" class="ls-item danger">

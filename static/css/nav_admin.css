@@ -60,3 +60,10 @@ nav.nav-admin ul li a.active {
   color: #0f172a;
   font-weight: 600;
 }
+
+nav.nav-admin .brand .brand-text {
+  display: none;
+}
+.left-sidebar:hover ~ .dash-container nav.nav-admin .brand .brand-text {
+  display: inline;
+}
