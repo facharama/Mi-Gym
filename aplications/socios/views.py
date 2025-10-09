@@ -26,7 +26,7 @@ def crear_socio(request):
         form = SocioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("socios_crear")
+            return redirect("socios:lista")
     else:
         form = SocioForm()
     return render(request, "socios/socio_form.html", {"form": form})
@@ -38,7 +38,7 @@ def editar_socio(request, pk):
         form = SocioForm(request.POST, instance=socio)
         if form.is_valid():
             form.save()
-            return redirect("socios_detalle", pk=socio.pk)
+            return redirect("socios:detalle", pk=socio.pk)
     else:
         form = SocioForm(instance=socio)
     return render(request, "socios/form_socio.html", {"form": form})
@@ -50,7 +50,7 @@ def crear_suscripcion(request, socio_id=None):
         form = SuscripcionForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("socios_detalle", pk=form.cleaned_data["socio"].pk)
+            return redirect("socios:detalle", pk=form.cleaned_data["socio"].pk)
     else:
         form = SuscripcionForm(initial=initial)
     planes = Plan.objects.filter(activo=True).order_by("nombre")
